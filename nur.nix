@@ -45,7 +45,7 @@ rec {
   simgrid = simgrid-335light; intervalset = intervalsetlight; };
 
   batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-335; intervalset = intervalsetlight; version = "4.2.0.dev335"; }; 
+  simgrid = simgrid-335; intervalset = intervalsetlight;  }; 
 
   batsim = batsim-420-sg335f;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
