@@ -41,9 +41,10 @@ rec {
   batsim-420 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
   simgrid = simgrid-334light; intervalset = intervalsetlight; };
 
-  batsim-420-sg335 = pkgs.callPackage ./pkgs/batsim/batsim420sg335.nix { inherit redox debug; 
+  batsim-420-sg335 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
   simgrid = simgrid-335light; intervalset = intervalsetlight; };
-  batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420sg335.nix { inherit redox debug; 
+
+  batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
   simgrid = simgrid-335; intervalset = intervalsetlight; }; 
 
   batsim = batsim-420-sg335f;
