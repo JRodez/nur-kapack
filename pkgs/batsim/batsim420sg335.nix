@@ -5,7 +5,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  pname = "batsim";
+  pname = "batsim-sg335";
   version = "4.2.0";
 
   src = fetchFromGitLab {
