@@ -42,7 +42,7 @@ rec {
   simgrid = simgrid-334light; intervalset = intervalsetlight; };
 
   batsim-420-sg335 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-335light; intervalset = intervalsetlight; version = "4.2.0.dev335"; };
+  simgrid = simgrid-335light; intervalset = intervalsetlight; };
 
   batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
   simgrid = simgrid-335; intervalset = intervalsetlight; version = "4.2.0.dev335"; }; 
