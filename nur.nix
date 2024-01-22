@@ -47,6 +47,9 @@ rec {
   batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
   simgrid = simgrid-335; intervalset = intervalsetlight;  }; 
 
+  batsim-420-iot = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
+  simgrid = simgrid-335-iot; intervalset = intervalsetlight;  }; 
+
   batsim = batsim-420-sg335f;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
 
