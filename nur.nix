@@ -193,6 +193,8 @@ rec {
       pkgs.ghc.meta.platforms;
   });
 
+  snakemake =  pkgs.callPackage ./pkgs/snakemake { };
+
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
   ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
 
