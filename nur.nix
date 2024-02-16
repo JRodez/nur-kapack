@@ -1,8 +1,10 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
-  }) {}
+{ pkgs ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
+      sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    })
+    { }
 , debug ? false
 }:
 
@@ -15,8 +17,10 @@ rec {
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
-    patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
-      ./pkgs/glibc-batsky/gettimeofday.patch ];
+    patches = attrs.patches ++ [
+      ./pkgs/glibc-batsky/clock_gettime.patch
+      ./pkgs/glibc-batsky/gettimeofday.patch
+    ];
     postConfigure = ''
       export NIX_CFLAGS_LINK=
       export NIX_LDFLAGS_BEFORE=
@@ -35,20 +39,37 @@ rec {
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
-  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; 
-  simgrid = simgrid-334light; intervalset = intervalsetlight; };
+  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix {
+    inherit redox debug;
+    simgrid = simgrid-334light;
+    intervalset = intervalsetlight;
+  };
 
-  batsim-420 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-334light; intervalset = intervalsetlight; };
+  batsim-420 = pkgs.callPackage ./pkgs/batsim/batsim420.nix {
+    inherit redox debug;
+    simgrid = simgrid-334light;
+    intervalset = intervalsetlight;
+  };
 
-  batsim-420-sg335 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-335light; intervalset = intervalsetlight; };
+  batsim-420-sg335 = pkgs.callPackage ./pkgs/batsim/batsim420.nix {
+    inherit redox debug;
+    simgrid = simgrid-335light;
+    intervalset = intervalsetlight;
+  };
 
-  batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-335; intervalset = intervalsetlight;  }; 
+  batsim-420-sg335f = pkgs.callPackage ./pkgs/batsim/batsim420.nix {
+    inherit redox debug;
+    simgrid = simgrid-335;
+    intervalset = intervalsetlight;
+  };
 
-  batsim-420-iot = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; 
-  simgrid = simgrid-335-iot; intervalset = intervalsetlight;  }; 
+  batsim-420-iot = (pkgs.callPackage ./pkgs/batsim/batsim420.nix {
+    inherit redox debug;
+    simgrid = simgrid-335-iot;
+    intervalset = intervalsetlight;
+  }).overrideAttrs (oldAttrs: {
+    name = "batsim-420-iot";
+  });
 
   batsim = batsim-420-sg335f;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
@@ -61,9 +82,9 @@ rec {
 
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
 
-  cpp-driver = pkgs.callPackage ./pkgs/cpp-driver {};
+  cpp-driver = pkgs.callPackage ./pkgs/cpp-driver { };
 
-  scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver {};
+  scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver { };
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
@@ -77,7 +98,7 @@ rec {
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
-  ear =  pkgs.callPackage ./pkgs/ear { };
+  ear = pkgs.callPackage ./pkgs/ear { };
 
   enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
 
@@ -95,9 +116,9 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
-  npb =  pkgs.callPackage ./pkgs/npb { };
+  npb = pkgs.callPackage ./pkgs/npb { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -114,7 +135,7 @@ rec {
 
   procset = pkgs.callPackage ./pkgs/procset { };
 
-  mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb {};
+  mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb { };
 
   nxc-cluster = pkgs.callPackage ./pkgs/nxc/cluster.nix { inherit execo; };
   nxc = nxc-cluster;
@@ -176,7 +197,7 @@ rec {
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];
+    configureFlags = oldAttrs.configureFlags ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
@@ -193,7 +214,7 @@ rec {
       pkgs.ghc.meta.platforms;
   });
 
-  snakemake =  pkgs.callPackage ./pkgs/snakemake { };
+  snakemake = pkgs.callPackage ./pkgs/snakemake { };
 
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
   ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
