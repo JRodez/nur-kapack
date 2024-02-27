@@ -106,6 +106,8 @@ rec {
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
+  ezpylog = pkgs.callPackage ./pkgs/ezpylog { };
+
   flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
 
   iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
