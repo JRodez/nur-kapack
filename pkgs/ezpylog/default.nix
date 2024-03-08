@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
     owner = "JRodez";
     name = "ezpylog";
     repo = pname;
-    rev = "38e8dc2";
-    sha256 = "sha256-VWKThK8+mZ7f+Aii40vLjaLOH8rAjxx7PuadC3q01ZM=";
+    rev = "e606c3d";
+    sha256 = "sha256-Law5xBEJwgpmDCgDcd2bCve/zbF0jVgcrbo97nvf/4M=";
   };
 
   propagatedBuildInputs = with python3Packages; [
