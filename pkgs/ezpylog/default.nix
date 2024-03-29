@@ -1,15 +1,15 @@
 {lib, python3Packages, fetchFromGitHub}:
 python3Packages.buildPythonPackage rec {
   pname = "ezpylog";
-  version = "2.1.1";
+  version = "2.2.0";
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "JRodez";
     name = "ezpylog";
     repo = pname;
-    rev = "e606c3d";
-    sha256 = "sha256-Law5xBEJwgpmDCgDcd2bCve/zbF0jVgcrbo97nvf/4M=";
+    rev = "4374c01";
+    sha256 = "sha256-RH5uDjXXArT39wB1ZRMVgUILqBUUTMoi8lu3Cp+GlYU=";
   };
 
   propagatedBuildInputs = with python3Packages; [

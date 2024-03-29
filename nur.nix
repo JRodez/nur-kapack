@@ -168,6 +168,8 @@ rec {
 
   oar3 = oar;
 
+  # vl-convert-python = pkgs.callPackage ./pkgs/vl-convert-python { };
+
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
