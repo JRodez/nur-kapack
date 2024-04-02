@@ -1,10 +1,9 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import
-    (fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-      sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
-    })
-    { }
+{ pkgs ? (import (fetchTarball {
+    name = "nixpkgs-f7e8132"; # 2024-02-??
+    url = "https://github.com/NixOS/nixpkgs/archive/f7e8132daca31b1e3859ac0fb49741754375ac3d.tar.gz";
+    sha256 = "0z57px1wqjm9z51ifc9b0fccp0a9w9sakm9c1ybvkib096gmlp0g";
+  })) { }
 , debug ? false
 }:
 
@@ -29,6 +28,15 @@ rec {
       makeFlagsArray+=("bindir=$bin/bin" "sbindir=$bin/sbin" "rootsbindir=$bin/sbin" "--quiet")
     '';
   });
+
+
+
+  latest_commit = repos_root:
+    let
+      gitdir = repos_root + "/.git";
+      head_path = gitdir + ("/" + builtins.head (builtins.match "^ref: (.*)\n$" (builtins.readFile (gitdir + /HEAD))));
+    in
+    builtins.head (builtins.match "^(.*)\n$" (builtins.readFile head_path));
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
 
