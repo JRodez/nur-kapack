@@ -5,7 +5,7 @@ dupls = {}
 
 632
 
-
+BS='\\'
 class color:
     PURPLE = "\033[95m"
     CYAN = "\033[96m"
@@ -75,7 +75,7 @@ def contains_keyword(line):
 
     if re.match(r".*\snote:\s.*", line):
         discard_lookup = True
-        return f"{color.GREY}      | {color.GREY}{add_to_ansiend(line,color.BG_GREY)}{color.END}"
+        return f"{color.GREY}      | {color.GREY} {add_to_ansiend(line,color.BG_GREY)}{color.END}"
 
     if line.startswith("In file included from"):
         return None
