@@ -40,7 +40,7 @@ colorizelines = {
     # warning flags  in magenta :
     r"\[-W[a-z0-9\-_]*\]": color.PURPLE,
     # filenames and paths in blue :
-    r"([a-z]+:\/\/|\/?[a-zA-Z0-9_\-\+\.]+[a-zA-Z_\-\+\.][a-zA-Z0-9_\-\+\.]+\/)([a-zA-Z0-9_\-\.\+]+\/)*[a-zA-Z0-9_\-\+\.]+(:[0-9]+)*": color.UNDERLINE
+    r"([a-z]+:\/\/|\.\.\/|\/?[a-zA-Z0-9_\-\+\.]+[a-zA-Z_\-\+\.][a-zA-Z0-9_\-\+\.]+\/)([a-zA-Z0-9_\-\.\+]+\/)*[a-zA-Z0-9_\-\+\.]+(:[0-9]+)*": color.UNDERLINE
     + color.LIGHTBLUE,
     # advancement in cyan :
     r"[0-9]+\/[0-9]+": color.DARKGREEN,
