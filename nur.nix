@@ -85,7 +85,7 @@ rec {
   elastisim = pkgs.callPackage ./pkgs/elastisim { };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
-
+  bco = pkgs.callPackage ./pkgs/bco { };
   cli11 = pkgs.callPackage ./pkgs/cli11 { };
 
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
