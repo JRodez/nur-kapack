@@ -187,6 +187,8 @@ rec {
   simgrid-334 = pkgs.callPackage ./pkgs/simgrid/simgrid334.nix { inherit debug; };
   simgrid-335 = pkgs.callPackage ./pkgs/simgrid/simgrid335.nix { inherit debug; };
   simgrid-335-iot = pkgs.callPackage ./pkgs/simgrid/simgrid335iot.nix { inherit debug; };
+  simgrid-3351-iot = pkgs.callPackage ./pkgs/simgrid/simgrid3351iot.nix { inherit debug; };
+
   simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
