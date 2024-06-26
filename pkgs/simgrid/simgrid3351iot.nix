@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
     owner = "jrodez";
     repo = pname;
     rev = "ddafba4";
-    sha256 = "sha256-RB4aezwyb8a+GqKb7U5zQf1VBMF42mTfREZaQ2W922I=";
+    sha256 = "sha256-v4yirzhP7hL20AcCwWMkx916Fe5Zg+8o1A7jvcoj3Jo=";
   };
 
   propagatedBuildInputs = optionals (!withoutBoostPropagation) [ boost ];
@@ -65,7 +65,7 @@ stdenv.mkDerivation rec {
     "-Denable_smpi_MPICH3_testsuite=${optionOnOff moreTests}"
     "-Denable_compile_warnings=off"
     "-Denable_compile_optimizations=${optionOnOff optimize}"
-    "-Denable_lto=on"
+    "-Denable_lto=${optionOnOff optimize}"
     "-DCMAKE_CXX_FLAGS=-DHIGH_DEPTH_ROUTING_ALGORITHM"
   ];
   makeFlags = optional debug "VERBOSE=1";

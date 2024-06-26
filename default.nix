@@ -1,8 +1,8 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? (import (fetchTarball {
-    name = "nixpkgs-f7e8132"; # 2024-02-??
-    url = "https://github.com/NixOS/nixpkgs/archive/f7e8132daca31b1e3859ac0fb49741754375ac3d.tar.gz";
-    sha256 = "0z57px1wqjm9z51ifc9b0fccp0a9w9sakm9c1ybvkib096gmlp0g";
+    name = "nixpkgs-5defcb4";  # 24.05 : 2024-06
+    url = "https://github.com/NixOS/nixpkgs/archive/5defcb4b0d6c286e8b4b2869cf38efb4cdeb5bf4.tar.gz";
+    sha256 = "1h9zif0mgyn46z1zd95zzkl1bv7q7mab6ydgk186rax5l8k99ixg";
   })) { }
 , debug ? false
 }:
