@@ -71,7 +71,7 @@ rec {
     intervalset = intervalsetlight;
   };
 
-  batsim-420-iot = (pkgs.callPackage ./pkgs/batsim/batsim420.nix {
+  batsim-420-iot = (pkgs.callPackage ./pkgs/batsim/batsim420-2024-07.nix {
     inherit redox debug;
     simgrid = simgrid-335-iot;
     intervalset = intervalsetlight;
