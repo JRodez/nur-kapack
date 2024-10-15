@@ -2,8 +2,9 @@
   description = " My personal NUR repository";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=23.11";
+    nixpkgs.url = "github:nixos/nixpkgs";
   };
+
   outputs = { self, nixpkgs, flake-utils }:
     let
       systems = [
@@ -11,24 +12,27 @@
         "i686-linux"
         "x86_64-darwin"
         "aarch64-linux"
-        "aarch64-darwin"
         "armv6l-linux"
         "armv7l-linux"
       ];
-      inherit (flake-utils.lib) eachSystem filterPackages;
 
-    in eachSystem systems (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowBroken = true; # FIXME
-        };
-      in {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs; }));
-        lib = import ./lib { inherit pkgs; };
-      }) // {
-        nixosModules =
-          builtins.mapAttrs (name: path: import path) (import ./modules);
-        overlay = import ./overlay.nix;
-      };
+      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+
+    in
+    {
+      legacyPackages = forAllSystems (system: import ./nur.nix {
+        pkgs = import nixpkgs { inherit system; };
+      });
+      packages = forAllSystems (system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system});
+      nixosModules =
+        builtins.mapAttrs (name: path: import path) (import ./modules);
+      overlay = import ./overlay.nix;
+
+    };
+  # in
+  #  eachSystem systems (system:
+  #   {
+  #     packages = (filterPackages system );
+  #     lib = import ./lib { inherit pkgs; };
+  #   }) // {
 }
