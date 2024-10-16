@@ -132,14 +132,14 @@ rec {
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
-  gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
+  # gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
   intervalsetlight = pkgs.callPackage ./pkgs/intervalset { withoutBoostPropagation = true; };
 
   iterators = pkgs.callPackage ./pkgs/iterators { };
 
-  kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+  # kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
@@ -243,5 +243,5 @@ rec {
 
   wirerope = pkgs.callPackage ./pkgs/wirerope { };
 
-  yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
+  # yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }
