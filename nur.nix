@@ -128,7 +128,7 @@ rec {
 
   npb = pkgs.callPackage ./pkgs/npb { };
 
-  go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
+  # go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
