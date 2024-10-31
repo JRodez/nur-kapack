@@ -102,7 +102,7 @@ rec {
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+  # dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
