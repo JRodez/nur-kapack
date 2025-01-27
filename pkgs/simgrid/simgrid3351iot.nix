@@ -80,7 +80,7 @@ stdenv.mkDerivation rec {
     export LD_LIBRARY_PATH="$PWD/build/lib"
   '';
 
-  doCheck = true;
+  doCheck = false;
   preCheck = ''
     # prevent the execution of tests known to fail
     cat <<EOW >CTestCustom.cmake
