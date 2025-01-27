@@ -83,9 +83,9 @@ stdenv.mkDerivation rec {
   doCheck = true;
   preCheck = ''
     # prevent the execution of tests known to fail
-    # cat <<EOW >CTestCustom.cmake
-    # SET(CTEST_CUSTOM_TESTS_IGNORE smpi-replay-multiple)
-    # EOW
+    cat <<EOW >CTestCustom.cmake
+    SET(CTEST_CUSTOM_TESTS_IGNORE smpi-replay-multiple)
+    EOW
 
     # make sure tests are built in parallel (this can be long otherwise)
     make tests -j $NIX_BUILD_CORES
