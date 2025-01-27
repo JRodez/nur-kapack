@@ -3,8 +3,6 @@ import sys, os, re
 
 dupls = {}
 
-632
-
 BS='\\'
 class color:
     PURPLE = "\033[95m"
