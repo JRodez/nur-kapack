@@ -1,12 +1,6 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 {
-  pkgs ?
-    (import (fetchTarball {
-      name = "nixpkgs-f0731e8"; # master 2024-07
-      url = "https://github.com/NixOS/nixpkgs/archive/f0731e801adf82d48dffa85b084187cdb565fd3c.tar.gz";
-      sha256 = "sha256:1nyrq7jf2alziw6zyxaf49hx0nkib2s0839jm2bp1lmn6brim7iq";
-    }))
-      { },
+  pkgs,
   debug ? false,
 }:
 
@@ -289,19 +283,6 @@ rec {
 
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
   ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
-
-  fullLLVMStdenv =
-    {
-      llvmPackages ? pkgs.llvmPackages_latest,
-    }:
-    llvmPackages.stdenv.override {
-      cc = llvmPackages.stdenv.cc.override {
-        bintools = llvmPackages.bintools;
-      };
-    }
-    // {
-      inherit llvmPackages;
-    };
 
   parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
 

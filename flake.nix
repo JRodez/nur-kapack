@@ -32,18 +32,27 @@
         };
       in
       rec {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs; }));
+        packages = (filterPackages system (import ./nur.nix { inherit pkgs; })) // rec {
+          llvmStdenvBase = (
+            {
+              llvmPackages ? pkgs.llvmPackages_latest,
+            }:
+            llvmPackages.stdenv.override {
+              cc = llvmPackages.stdenv.cc.override {
+                bintools = llvmPackages.bintools;
+              };
+            }
+            // {
+              inherit llvmPackages;
+            }
+          );
+          llvmStdenv = llvmStdenvBase { };
+        };
         devShells.default = pkgs.mkShell {
           buildInputs = with packages; [
-            (lib.cppMesonDevBase {
-              inherit
-                stdenv
-                lib
-                meson
-                ninja
-                pkg-config
-                ;
-            })
+
+            (pkgs.hello.override { stdenv = llvmStdenv; })
+
             snakemake
             bco
             batexpe
