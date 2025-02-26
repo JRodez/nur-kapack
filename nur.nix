@@ -1,10 +1,13 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? (import (fetchTarball {
-    name = "nixpkgs-f0731e8"; # master 2024-07
-    url = "https://github.com/NixOS/nixpkgs/archive/f0731e801adf82d48dffa85b084187cdb565fd3c.tar.gz";
-    sha256 = "sha256:1nyrq7jf2alziw6zyxaf49hx0nkib2s0839jm2bp1lmn6brim7iq";
-  })) { }
-, debug ? false
+{
+  pkgs ?
+    (import (fetchTarball {
+      name = "nixpkgs-f0731e8"; # master 2024-07
+      url = "https://github.com/NixOS/nixpkgs/archive/f0731e801adf82d48dffa85b084187cdb565fd3c.tar.gz";
+      sha256 = "sha256:1nyrq7jf2alziw6zyxaf49hx0nkib2s0839jm2bp1lmn6brim7iq";
+    }))
+      { },
+  debug ? false,
 }:
 
 rec {
@@ -29,12 +32,13 @@ rec {
     '';
   });
 
-
-
-  latest_commit = repos_root:
+  latest_commit =
+    repos_root:
     let
       gitdir = repos_root + "/.git";
-      head_path = gitdir + ("/" + builtins.head (builtins.match "^ref: (.*)\n$" (builtins.readFile (gitdir + /HEAD))));
+      head_path =
+        gitdir
+        + ("/" + builtins.head (builtins.match "^ref: (.*)\n$" (builtins.readFile (gitdir + /HEAD))));
     in
     builtins.head (builtins.match "^(.*)\n$" (builtins.readFile head_path));
 
@@ -42,7 +46,10 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
+  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix {
+    inherit loguru redox debug;
+    intervalset = intervalsetlight;
+  };
   batsched = batsched-140;
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
@@ -71,13 +78,15 @@ rec {
     intervalset = intervalsetlight;
   };
 
-  batsim-420-iot = (pkgs.callPackage ./pkgs/batsim/batsim420-2024-07.nix {
-    inherit redox debug;
-    simgrid = simgrid-335-iot;
-    intervalset = intervalsetlight;
-  }).overrideAttrs (oldAttrs: {
-    name = "batsim-420-iot";
-  });
+  batsim-420-iot =
+    (pkgs.callPackage ./pkgs/batsim/batsim420-2024-07.nix {
+      inherit redox debug;
+      simgrid = simgrid-335-iot;
+      intervalset = intervalsetlight;
+    }).overrideAttrs
+      (oldAttrs: {
+        name = "batsim-420-iot";
+      });
 
   batsim = batsim-420-sg335f;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
@@ -108,7 +117,14 @@ rec {
 
   ear = pkgs.callPackage ./pkgs/ear { };
 
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib {
+    inherit
+      execo
+      iotlabsshcli
+      distem
+      python-grid5000
+      ;
+  };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -155,7 +171,9 @@ rec {
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim-321 = pkgs.callPackage ./pkgs/pybatsim/pybatsim321.nix { inherit procset; };
   pybatsim-core-400 = pkgs.callPackage ./pkgs/pybatsim/core400.nix { inherit procset; };
-  pybatsim-functional-400 = pkgs.callPackage ./pkgs/pybatsim/functional400.nix { pybatsim-core = pybatsim-core-400; };
+  pybatsim-functional-400 = pkgs.callPackage ./pkgs/pybatsim/functional400.nix {
+    pybatsim-core = pybatsim-core-400;
+  };
   pybatsim = pybatsim-321;
   pybatsim-core = pybatsim-core-400;
   pybatsim-functional = pybatsim-functional-400;
@@ -189,31 +207,71 @@ rec {
   simgrid-335-iot = pkgs.callPackage ./pkgs/simgrid/simgrid335iot.nix { inherit debug; };
   simgrid-3351-iot = pkgs.callPackage ./pkgs/simgrid/simgrid3351iot.nix { inherit debug; };
 
-  simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
-  simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
-  simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
-  simgrid-330light = simgrid-330.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid-331light = simgrid-331.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid-332light = simgrid-332.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid-334light = simgrid-334.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid-335light = simgrid-335.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
+  simgrid-327light = simgrid-327.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+  };
+  simgrid-328light = simgrid-328.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+  };
+  simgrid-329light = simgrid-329.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+  };
+  simgrid-330light = simgrid-330.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+    buildPythonBindings = false;
+  };
+  simgrid-331light = simgrid-331.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+    buildPythonBindings = false;
+  };
+  simgrid-332light = simgrid-332.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+    buildPythonBindings = false;
+  };
+  simgrid-334light = simgrid-334.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+    buildPythonBindings = false;
+  };
+  simgrid-335light = simgrid-335.override {
+    minimalBindings = true;
+    withoutBin = true;
+    withoutBoostPropagation = true;
+    buildPythonBindings = false;
+  };
 
   simgrid = simgrid-335;
   simgrid-light = simgrid-335light;
 
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
-    if pkgs ? libmysql
-    then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
-    else pkgs.callPackage ./pkgs/slurm-simulator { };
+    if pkgs ? libmysql then
+      pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
+    else
+      pkgs.callPackage ./pkgs/slurm-simulator { };
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
 
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
-    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
-      pkgs.ghc.meta.platforms;
+    configureFlags = oldAttrs.configureFlags ++ [
+      "--enable-multiple-slurmd"
+      "--enable-silent-rules"
+    ];
+    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms pkgs.ghc.meta.platforms;
   });
 
   slurm-front-end = pkgs.slurm.overrideAttrs (oldAttrs: {
@@ -224,14 +282,26 @@ rec {
       "--sysconfdir=/etc/slurm"
       "--enable-silent-rules"
     ];
-    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
-      pkgs.ghc.meta.platforms;
+    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms pkgs.ghc.meta.platforms;
   });
 
   snakemake = pkgs.snakemake;
 
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
   ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
+
+  fullLLVMStdenv =
+    {
+      llvmPackages ? pkgs.llvmPackages_latest,
+    }:
+    llvmPackages.stdenv.override {
+      cc = llvmPackages.stdenv.cc.override {
+        bintools = llvmPackages.bintools;
+      };
+    }
+    // {
+      inherit llvmPackages;
+    };
 
   parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
 
