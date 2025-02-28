@@ -3,7 +3,9 @@
   pkgs,
   debug ? false,
 }:
+let
 
+in
 rec {
   # The `lib`, `modules`, and `overlay` names are special
   lib = import ./lib { inherit pkgs; }; # functions
@@ -37,6 +39,21 @@ rec {
     builtins.head (builtins.match "^(.*)\n$" (builtins.readFile head_path));
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
+
+  llvmStdenvBase = (
+    {
+      llvmPackages ? pkgs.llvmPackages_latest,
+    }:
+    llvmPackages.stdenv.override {
+      cc = llvmPackages.stdenv.cc.override {
+        bintools = llvmPackages.bintools;
+      };
+    }
+    // {
+      inherit llvmPackages;
+    }
+  );
+  llvmStdenv = llvmStdenvBase { };
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
@@ -201,12 +218,14 @@ rec {
 
   simgrid-335 = simgrid-base {
     inherit debug;
+    stdenv = llvmStdenv;
     version = "3.35";
     sha256 = "sha256-WaFANZiPfiN/utfNZbwyH5mxgJNWafPMCcL863V8w0g=";
   };
 
   simgrid-335-iot = simgrid-335.overrideAttrs (oldAttrs: rec {
     version = "3.35iot";
+    doCheck = false;
     src = pkgs.fetchFromGitHub {
       owner = "jrodez";
       repo = "simgrid";
@@ -216,6 +235,7 @@ rec {
   });
   simgrid-3351-iot = simgrid-335-iot.overrideAttrs (oldAttrs: rec {
     version = "3.35iot";
+    doCheck = false;
     src = pkgs.fetchFromGitHub {
       owner = "jrodez";
       repo = "simgrid";
@@ -224,10 +244,21 @@ rec {
     };
   });
 
+  simgrid-3352-iot = simgrid-335-iot.overrideAttrs (oldAttrs: rec {
+    version = "3.35iot";
+    doCheck = false;
+    stdenv = llvmStdenv;
+    src = fetchTarball {
+      url = "https://framagit.org/JRodez/simgrid/-/archive/36cd18feb5247f41c466d536b226d792a2446b0d/simgrid-36cd18feb5247f41c466d536b226d792a2446b0d.tar.gz";
+      sha256 = "sha256:1m2rgrfdhnp6lpqz7k9cbwlxppp5px9ak9dxnqkn77hqgpg7gfy2";
+    };
+  });
+
   simgrid-336 = simgrid-base rec {
     inherit debug;
+    stdenv = llvmStdenv;
     version = "3.36";
-    sha256 = "sha256-WaFANZiPfiN/utfNZbwyH5mxgJNWafPMCcL863V8w0g=";
+    sha256 = "sha256-7w4ObbMem1Y8Lh9MOcdCSEktTDRkvVKmKlS9adm15oE=";
   };
 
   simgrid-327light = simgrid-327.override {
@@ -279,6 +310,11 @@ rec {
   simgrid = simgrid-335;
   simgrid-light = simgrid-335light;
 
+  simgrid-fsmod = pkgs.callPackage ./pkgs/simgrid-file-system-module {
+    inherit simgrid;
+    stdenv = llvmStdenv;
+  };
+
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
     if pkgs ? libmysql then
@@ -323,5 +359,9 @@ rec {
 
   wirerope = pkgs.callPackage ./pkgs/wirerope { };
 
+  wrench = pkgs.callPackage ./pkgs/wrench {
+    inherit simgrid simgrid-fsmod;
+    stdenv = llvmStdenv;
+  };
   # yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }

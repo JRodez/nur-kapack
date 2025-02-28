@@ -30,24 +30,14 @@
           inherit system;
           # config.allowBroken = true; # FIXME
         };
+        nurpkgs = import ./nur.nix { inherit pkgs; };
       in
       rec {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs; })) // rec {
-          llvmStdenvBase = (
-            {
-              llvmPackages ? pkgs.llvmPackages_latest,
-            }:
-            llvmPackages.stdenv.override {
-              cc = llvmPackages.stdenv.cc.override {
-                bintools = llvmPackages.bintools;
-              };
-            }
-            // {
-              inherit llvmPackages;
-            }
-          );
-          llvmStdenv = llvmStdenvBase { };
-        };
+        packages =
+          (filterPackages system nurpkgs)
+          // (with nurpkgs; {
+            inherit llvmStdenvBase llvmStdenv;
+          });
         devShells.default = pkgs.mkShell {
           buildInputs = with packages; [
 
@@ -57,8 +47,10 @@
             bco
             batexpe
             ezpylog
-            simgrid-3351-iot
-            simgrid-336
+            simgrid-3352-iot
+            (simgrid-fsmod.override { simgrid = simgrid-336; })
+            (wrench.override { simgrid = simgrid-336; })
+            # simgrid-336
             pkgs.hello
           ];
         };
