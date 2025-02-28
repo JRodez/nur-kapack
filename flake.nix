@@ -58,6 +58,7 @@
             batexpe
             ezpylog
             simgrid-3351-iot
+            simgrid-336
             pkgs.hello
           ];
         };

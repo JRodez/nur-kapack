@@ -1,11 +1,14 @@
 {
   stdenv,
   lib,
-  fetchFromGitHub,
+  fetchFromGitLab,
   cmake,
   perl,
   python3,
   boost,
+  version,
+  sha256 ? "",
+  doCheck ? true,
   fortranSupport ? false,
   gfortran,
   buildDocumentation ? false,
@@ -37,14 +40,15 @@ let
 in
 
 stdenv.mkDerivation rec {
+  inherit version doCheck;
   pname = "simgrid";
-  version = "3.35.1iot";
 
-  src = fetchFromGitHub {
-    owner = "jrodez";
+  src = fetchFromGitLab {
+    domain = "framagit.org";
+    owner = pname;
     repo = pname;
-    rev = "ddafba4";
-    sha256 = "sha256-v4yirzhP7hL20AcCwWMkx916Fe5Zg+8o1A7jvcoj3Jo=";
+    sha256 = sha256;
+    rev = "v${version}";
   };
 
   propagatedBuildInputs = optionals (!withoutBoostPropagation) [ boost ];
@@ -95,7 +99,6 @@ stdenv.mkDerivation rec {
     "-Denable_compile_warnings=off"
     "-Denable_compile_optimizations=${optionOnOff optimize}"
     "-Denable_lto=${optionOnOff optimize}"
-    "-DCMAKE_CXX_FLAGS=-DHIGH_DEPTH_ROUTING_ALGORITHM"
   ];
   makeFlags = optional debug "VERBOSE=1";
 
@@ -109,7 +112,6 @@ stdenv.mkDerivation rec {
     export LD_LIBRARY_PATH="$PWD/build/lib"
   '';
 
-  doCheck = false;
   preCheck = ''
     # prevent the execution of tests known to fail
     cat <<EOW >CTestCustom.cmake

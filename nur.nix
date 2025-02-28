@@ -190,6 +190,7 @@ rec {
 
   # vl-convert-python = pkgs.callPackage ./pkgs/vl-convert-python { };
 
+  simgrid-base = pkgs.callPackage ./pkgs/simgrid/simgridbase.nix;
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
@@ -197,9 +198,37 @@ rec {
   simgrid-331 = pkgs.callPackage ./pkgs/simgrid/simgrid331.nix { inherit debug; };
   simgrid-332 = pkgs.callPackage ./pkgs/simgrid/simgrid332.nix { inherit debug; };
   simgrid-334 = pkgs.callPackage ./pkgs/simgrid/simgrid334.nix { inherit debug; };
-  simgrid-335 = pkgs.callPackage ./pkgs/simgrid/simgrid335.nix { inherit debug; };
-  simgrid-335-iot = pkgs.callPackage ./pkgs/simgrid/simgrid335iot.nix { inherit debug; };
-  simgrid-3351-iot = pkgs.callPackage ./pkgs/simgrid/simgrid3351iot.nix { inherit debug; };
+
+  simgrid-335 = simgrid-base {
+    inherit debug;
+    version = "3.35";
+    sha256 = "sha256-WaFANZiPfiN/utfNZbwyH5mxgJNWafPMCcL863V8w0g=";
+  };
+
+  simgrid-335-iot = simgrid-335.overrideAttrs (oldAttrs: rec {
+    version = "3.35iot";
+    src = pkgs.fetchFromGitHub {
+      owner = "jrodez";
+      repo = "simgrid";
+      rev = "v${version}";
+      sha256 = "sha256-rwgkH5QenvexI6S2qWg17BHCdAXz5/AKPLkDQfHf6hI=";
+    };
+  });
+  simgrid-3351-iot = simgrid-335-iot.overrideAttrs (oldAttrs: rec {
+    version = "3.35iot";
+    src = pkgs.fetchFromGitHub {
+      owner = "jrodez";
+      repo = "simgrid";
+      rev = "ddafba4";
+      sha256 = "sha256-v4yirzhP7hL20AcCwWMkx916Fe5Zg+8o1A7jvcoj3Jo=";
+    };
+  });
+
+  simgrid-336 = simgrid-base rec {
+    inherit debug;
+    version = "3.36";
+    sha256 = "sha256-WaFANZiPfiN/utfNZbwyH5mxgJNWafPMCcL863V8w0g=";
+  };
 
   simgrid-327light = simgrid-327.override {
     minimalBindings = true;
