@@ -223,16 +223,24 @@ rec {
     sha256 = "sha256-WaFANZiPfiN/utfNZbwyH5mxgJNWafPMCcL863V8w0g=";
   };
 
-  simgrid-335-iot = simgrid-335.overrideAttrs (oldAttrs: rec {
-    version = "3.35iot";
-    doCheck = false;
-    src = pkgs.fetchFromGitHub {
-      owner = "jrodez";
-      repo = "simgrid";
-      rev = "v${version}";
-      sha256 = "sha256-rwgkH5QenvexI6S2qWg17BHCdAXz5/AKPLkDQfHf6hI=";
-    };
-  });
+  simgrid-335-iot = pkgs.callPackage ./pkgs/simgrid/simgrid335iot.nix {
+    inherit debug;
+    stdenv = llvmStdenv;
+  };
+  
+  # simgrid-335-iot = simgrid-335.overrideAttrs (oldAttrs: rec {
+  #   version = "3.35iot";
+  #   doCheck = false;
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "jrodez";
+  #     repo = "simgrid";
+  #     rev = "v${version}";
+  #     sha256 = "sha256-rwgkH5QenvexI6S2qWg17BHCdAXz5/AKPLkDQfHf6hI=";
+  #   };
+  # });
+
+
+
   simgrid-3351-iot = simgrid-335-iot.overrideAttrs (oldAttrs: rec {
     version = "3.35iot";
     doCheck = false;
