@@ -79,26 +79,28 @@ stdenv.mkDerivation rec {
   # "Release" does not work. non-debug mode is Debug compiled with optimization
   cmakeBuildType = "Debug";
   cmakeFlags = [
-    "-Denable_documentation=${optionOnOff buildDocumentation}"
-    "-Denable_java=${optionOnOff buildJavaBindings}"
-    "-Denable_python=${optionOnOff buildPythonBindings}"
-    "-DSIMGRID_PYTHON_LIBDIR=./" # prevents CMake to install in ${python3} dir
-    "-Denable_msg=${optionOnOff buildJavaBindings}"
-    "-Denable_fortran=${optionOnOff fortranSupport}"
-    "-Denable_model-checking=${optionOnOff modelCheckingSupport}"
-    "-Denable_ns3=off"
-    "-Denable_lua=off"
-    "-Denable_lib_in_jar=off"
-    "-Denable_maintainer_mode=off"
-    "-Denable_mallocators=on"
-    "-Denable_debug=on"
-    "-Denable_smpi=on"
-    "-Dminimal-bindings=${optionOnOff minimalBindings}"
-    "-Denable_smpi_ISP_testsuite=${optionOnOff moreTests}"
-    "-Denable_smpi_MPICH3_testsuite=${optionOnOff moreTests}"
-    "-Denable_compile_warnings=off"
-    "-Denable_compile_optimizations=${optionOnOff optimize}"
-    "-Denable_lto=${optionOnOff optimize}"
+    (cmakeBool "enable_documentation" buildDocumentation)
+    (cmakeBool "enable_java" buildJavaBindings)
+    (cmakeBool "enable_python" buildPythonBindings)
+    (cmakeFeature "SIMGRID_PYTHON_LIBDIR" "./") # prevents CMake to install in ${python3} dir
+    (cmakeBool "enable_msg" buildJavaBindings)
+    (cmakeBool "enable_fortran" fortranSupport)
+    (cmakeBool "enable_model-checking" modelCheckingSupport)
+    (cmakeBool "enable_ns3" false)
+    (cmakeBool "enable_lua" false)
+    (cmakeBool "enable_lib_in_jar" false)
+    (cmakeBool "enable_maintainer_mode" false)
+    (cmakeBool "enable_mallocators" true)
+    (cmakeBool "enable_debug" true)
+    (cmakeBool "enable_smpi" true)
+    (cmakeBool "minimal-bindings" minimalBindings)
+    (cmakeBool "enable_smpi_ISP_testsuite" moreTests)
+    (cmakeBool "enable_smpi_MPICH3_testsuite" moreTests)
+    (cmakeBool "enable_compile_warnings" false)
+    (cmakeBool "enable_compile_optimizations" optimize)
+    (cmakeBool "enable_lto" optimize)
+    # RPATH of binary /nix/store/.../bin/... contains a forbidden reference to /build/
+    (cmakeBool "CMAKE_SKIP_BUILD_RPATH" optimize)
   ];
   makeFlags = optional debug "VERBOSE=1";
 
