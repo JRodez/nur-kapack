@@ -36,13 +36,12 @@
         packages =
           (filterPackages system nurpkgs)
           // (with nurpkgs; {
-            inherit llvmStdenvBase llvmStdenv;
+            inherit llvmStdenvBase llvmStdenv simgrid-base;
           });
         devShells.default = pkgs.mkShell {
           buildInputs = with packages; [
 
             (pkgs.hello.override { stdenv = llvmStdenv; })
-
             snakemake
             bco
             batexpe

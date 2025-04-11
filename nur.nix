@@ -57,6 +57,8 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
+  alumet = pkgs.callPackage ./pkgs/alumet { };
+
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix {
     inherit loguru redox debug;
     intervalset = intervalsetlight;
@@ -227,7 +229,7 @@ rec {
     inherit debug;
     stdenv = llvmStdenv;
   };
-  
+
   # simgrid-335-iot = simgrid-335.overrideAttrs (oldAttrs: rec {
   #   version = "3.35iot";
   #   doCheck = false;
@@ -238,8 +240,6 @@ rec {
   #     sha256 = "sha256-rwgkH5QenvexI6S2qWg17BHCdAXz5/AKPLkDQfHf6hI=";
   #   };
   # });
-
-
 
   simgrid-3351-iot = simgrid-335-iot.overrideAttrs (oldAttrs: rec {
     version = "3.35iot";
