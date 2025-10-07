@@ -1,7 +1,20 @@
-{ stdenv, lib, fetchFromGitLab
-, meson, ninja, pkg-config
-, simgrid, intervalset, boost, rapidjson, redox, zeromq, docopt_cpp, pugixml
-, debug ? false
+{
+  stdenv,
+  lib,
+  fetchFromGitLab,
+  meson,
+  ninja,
+  pkg-config,
+  simgrid,
+  intervalset,
+  boost,
+  rapidjson,
+  redox,
+  zeromq,
+  docopt_cpp,
+  fetchFromGitHub,
+  pugixml,
+  debug ? false,
 }:
 
 stdenv.mkDerivation rec {
@@ -30,18 +43,27 @@ stdenv.mkDerivation rec {
     redox
     zeromq
     docopt_cpp
+    # (docopt_cpp.overrideAttrs (old: {
+    #   src = fetchFromGitHub {
+    #     owner = "docopt";
+    #     repo = "docopt.cpp";
+    #     rev = "05d507da0d153faff381f44968833ebffdc03447";
+    #     sha256 = "sha256-9GqPgsekxnWXbp+ULb17yLpnMU1gMNms+GgkEkjUCyM=";
+    #   };
+    # }))
     pugixml
   ];
   buildInputs = [
     boost
-  ] ++ runtimeDeps;
+  ]
+  ++ runtimeDeps;
 
   ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
   mesonBuildType = if debug then "debug" else "release";
   CXXFLAGS = if debug then "-O0" else "";
-  hardeningDisable = if debug then [ "fortify" ] else [];
+  hardeningDisable = if debug then [ "fortify" ] else [ ];
   dontStrip = debug;
 
   meta = with lib; {

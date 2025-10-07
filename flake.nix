@@ -2,7 +2,7 @@
   description = " My personal NUR repository";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
   };
 
   outputs =
@@ -47,6 +47,7 @@
             batexpe
             ezpylog
             simgrid-3352-iot
+            batsim-420-iot
             # (simgrid-fsmod.override { simgrid = simgrid-336; })
             # (wrench.override { simgrid = simgrid-336; })
             # simgrid-336

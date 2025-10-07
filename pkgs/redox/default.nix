@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
   propagatedBuildInputs = [ hiredis libev ];
 
-  cmakeFlags = ["-Dstatic_lib=OFF"];
+  cmakeFlags = ["-Dstatic_lib=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5"];
   postFixup = ''
     # fix libdir in pkgconfig file (lib64 -> lib)
     sed -i -E 'sW^libdir=(.*)/lib[0-9]{2}Wlibdir=\1/libW' $out/lib*/pkgconfig/redox.pc
