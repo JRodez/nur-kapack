@@ -9,6 +9,9 @@ python3Packages.buildPythonPackage rec {
     sha256 = "sha256-xkAMVQxAy9zx2P6R8I/Xz7afQJP0c0I8hddrKeEcPF4=";
   };
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   meta = with lib; {
     description = "Execo";
     homepage = "https://gitlab.inria.fr/mimbert/execo";

@@ -24,6 +24,9 @@ python3Packages.buildPythonPackage rec {
       procset
     ];
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
     doCheck = false;
 
     meta = with lib; {

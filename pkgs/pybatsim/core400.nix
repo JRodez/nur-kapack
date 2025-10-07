@@ -19,6 +19,8 @@ python3Packages.buildPythonPackage rec {
     sortedcontainers
     importlib-metadata
   ];
+  build-system = [ python3Packages.setuptools ];
+
 
   doCheck = false;
 

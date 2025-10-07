@@ -7,6 +7,9 @@ python3Packages.buildPythonPackage rec {
     inherit pname version;
     sha256 = "sha256-5IHWTzaRrc9WSLFDWyA7VDkisYoV9ITRpirjbSLPf34=";
   };
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   doCheck = false;
   propagatedBuildInputs = [
     python3Packages.requests

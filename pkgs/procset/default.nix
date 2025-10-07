@@ -13,6 +13,9 @@ python3Packages.buildPythonPackage rec {
   LC_ALL = "en_US.UTF-8";
   buildInputs = [ pkgs.glibcLocales ];
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   meta = with lib; {
     longDescription = ''
       Toolkit to manage sets of closed intervals.

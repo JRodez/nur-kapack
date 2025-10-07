@@ -9,6 +9,9 @@ python3Packages.buildPythonPackage rec {
     rev = "bfe257be31941f906539680d3a220c682b9ee5e6";
     sha256 = "sha256-b29z/amJGP/36YKIaZlu2Tdo7oJXSqRT/z3cLIi5TtI=";
   };
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   doCheck = false;
   propagatedBuildInputs = [
     python3Packages.scp

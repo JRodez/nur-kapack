@@ -8,6 +8,9 @@ python3Packages.buildPythonPackage rec {
     inherit pname version;
     sha256 = "sha256-T2pbOcPHJO3VxyMaWJ1GOtUDV83DVJSjxxcweVt461A=";
   };
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
 
   meta = with lib; {
     description = "Provides a wrapper class TimeoutIterator to add timeout feature to normal iterators";

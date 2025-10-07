@@ -47,8 +47,8 @@
             batexpe
             ezpylog
             simgrid-3352-iot
-            (simgrid-fsmod.override { simgrid = simgrid-336; })
-            (wrench.override { simgrid = simgrid-336; })
+            # (simgrid-fsmod.override { simgrid = simgrid-336; })
+            # (wrench.override { simgrid = simgrid-336; })
             # simgrid-336
             pkgs.hello
           ];

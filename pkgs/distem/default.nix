@@ -10,6 +10,8 @@ python3Packages.buildPythonPackage rec {
     rev = "650931b377c35470e3c72923f9af2fd9c37f0470";
     sha256 = "sha256-brrs350eC+vBzLJmdqw4FnjNbL+NgAfnqWDjsMiEyZ4=";
   };
+  pyproject = true;
+  build-system = [ "setuptools" ];
   propagatedBuildInputs = [
     python3Packages.requests
   ];

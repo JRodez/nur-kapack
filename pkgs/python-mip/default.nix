@@ -10,6 +10,9 @@ python3Packages.buildPythonPackage rec {
   propagatedBuildInputs = with python3Packages; [ cffi setuptools_scm ];
   doCheck = false;
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   meta = with lib; {
     description = "Collection of tools for Mixed-Integer Linear programs";
     homepage = "https://github.com/coin-or/python-mip";

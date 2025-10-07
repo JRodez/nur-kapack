@@ -13,6 +13,9 @@ python3Packages.buildPythonPackage rec {
   dontUseCmakeConfigure = true;
   nativeBuildInputs = [ cmake ];
 
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   SYSTEM_LIBSSH2 = "1";
 
   buildInputs = [ libssh2 openssl zlib ];

@@ -16,6 +16,8 @@ python3Packages.buildPythonPackage rec {
     pybatsim-core
     pandas
   ];
+  build-system = [ python3Packages.setuptools ];
+
 
   doCheck = false;
 

@@ -1,4 +1,12 @@
-{ python3Packages, fetchFromGitLab, execo, ansible, iotlabsshcli, distem, python-grid5000 }:
+{
+  python3Packages,
+  fetchFromGitLab,
+  execo,
+  ansible,
+  iotlabsshcli,
+  distem,
+  python-grid5000,
+}:
 
 python3Packages.buildPythonPackage rec {
   pname = "enoslib";
@@ -38,6 +46,9 @@ python3Packages.buildPythonPackage rec {
     execo
     python-grid5000
   ];
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   doCheck = false;
   meta.broken = true;
   # checkInputs = [

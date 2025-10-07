@@ -7,6 +7,9 @@ python3Packages.buildPythonPackage rec {
     inherit pname version;
     sha256 = "sha256-i5JfQ5cqVJrgkKVfVXvrU6GWhWZtvrFmswQ9YfXrLbk=";
   };
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
+
   propagatedBuildInputs = [
     python3Packages.gevent
     ssh2-python
